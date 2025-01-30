@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EDAF75 - notebook for lab 1</title>
+<meta name="keywords" content="keywords" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">EDAF75 - notebook for lab 1</h1>
+<div id="outline-container-edaf75-lab-1-sql" class="outline-2">
+<h2 id="edaf75-lab-1-sql">SQL queries</h2>
+<div class="outline-text-2" id="text-edaf75-lab-1-sql">
+<p>
+This lab is meant to be run as a <code>jupyter</code> notebook, you can download it <a href="./lab1.zip">here</a> (the zip-file contains the notebook and the database, and a <a href="./lab1.html">.html-file</a> which you can read in case you have problems reading/running jupyter notebooks).
+</p>
+
+<p>
+To start your notebook, you can use the following commands (after you've downloaded <a href="./lab1.zip">the zip file</a>):
+</p>
+
+<p>
+<pre><code>
+$ unzip lab1.zip
+$ jupyter lab
+</code></pre>
+</p>
+
+<p>
+This should start jupyter in a browser tab, and there you can click
+<code>lab1.ipynb</code>.
+</p>
+</div>
+<div id="outline-container-background" class="outline-3">
+<h3 id="background">Background</h3>
+<div class="outline-text-3" id="text-background">
+<p>
+We have a database to handle the academic achievements of students at LTH &#x2013; in it we have four tables:
+</p>
+
+<p>
+<center>
+<img src='./lab1-er.svg'>
+</center>
+</p>
+
+<ul class="org-ul">
+<li><code>students</code>
+<ul class="org-ul">
+<li><code>ssn</code>: social security number (personnummer)</li>
+<li><code>first_name</code>: first name (duh!)</li>
+<li><code>last_name</code>: last name</li>
+</ul></li>
+
+<li><code>departments</code>
+<ul class="org-ul">
+<li><code>department_code</code>: unique code for each department, such as <code>eda</code>, <code>fma</code>, &#x2026;</li>
+<li><code>department_name</code>: the name of the department, in Swedish</li>
+</ul></li>
+
+<li><code>courses</code>
+<ul class="org-ul">
+<li><code>course_code</code>: course code (like <code>edaf75</code>)</li>
+<li><code>course_name</code>: the name of the course, in Swedish (like "Databasteknik")</li>
+<li><code>department_code</code>: the department giving the course</li>
+<li><code>level</code>: the course level &#x2013; can be either "G1", "G2", or "A"</li>
+<li><code>credits</code>: the number of credits for the course (like 7.5 for <code>edaf75</code>)</li>
+</ul></li>
+
+<li><code>finished_courses</code>
+<ul class="org-ul">
+<li><code>ssn</code>: the <code>ssn</code> of the student who has finished a course</li>
+<li><code>course_code</code>: the <code>course_code</code> for the finished course</li>
+<li><code>grade</code>: the grade for the student finishing the course</li>
+</ul></li>
+</ul>
+
+<p>
+Some sample data:
+</p>
+
+<p>
+<pre>
+<code>ssn            first&#95;name  last&#95;name</code>
+<code>-----------    ----------  ---------</code>
+<code>19950705-2308  Anna        Johansson</code>
+<code>19930702-3582  Anna        Johansson</code>
+<code>19911212-1746  Emma        Alm</code>
+<code>...          ...         ...</code>
+<code></code>
+<code>department&#95;code  department&#95;name</code>
+<code>---------------  ----------------------------------------</code>
+<code>eda              Datavetenskap</code>
+<code>edi              Informationsteori</code>
+<code>eem              Elektrisk mätteknik</code>
+<code>...              ...</code>
+<code></code>
+<code>course&#95;code  course&#95;name           </code> <code>department&#95;code  level  credits</code>
+<code>-----------  ---------------------  ---------------  ----- </code> --&#x2013;&#x2014;
+<code>EDA016       Programmeringsteknik   eda              G1     7.5</code>
+<code>EDA031       C++ - programmering    eda              G2     7.5</code>
+<code>EDA040       Realtidsprogrammering  eda              G2     6.0</code>
+<code>...          ...                    ...              ...    ...</code>
+<code></code>
+<code>ssn            course&#95;code  grade</code>
+<code>-----------    -----------  -----</code>
+<code>19950705-2308  EITN35       5</code>
+<code>19950705-2308  ESS050       3</code>
+<code>19950705-2308  ETIN70       4</code>
+<code>...          ...          ...</code>
+</code></pre>
+</p>
+
+<p>
+The tables have been created with the following SQL statements:
+</p>
+
+<p>
+<pre>
+<code>CREATE TABLE students (</code>
+<code>  ssn          CHAR(11),</code>
+<code>  first&#95;name   TEXT NOT NULL,</code>
+<code>  last&#95;name    TEXT NOT NULL,</code>
+<code>  PRIMARY KEY  (ssn)</code>
+<code>);</code>
+<code></code>
+<code>CREATE TABLE departments (</code>
+<code>  department&#95;code  TEXT,</code>
+<code>  department&#95;name  TEXT,</code>
+<code>  PRIMARY KEY      (department&#95;code)</code>
+<code>);</code>
+<code></code>
+<code>CREATE TABLE courses (</code>
+<code>  course&#95;code      CHAR(6),</code>
+<code>  course&#95;name      TEXT NOT NULL,</code>
+<code>  department&#95;code  TEXT,</code>
+<code>  level            CHAR(2),</code>
+<code>  credits          DOUBLE NOT NULL CHECK (credits > 0),</code>
+<code>  PRIMARY KEY      (course&#95;code),</code>
+<code>  FOREIGN KEY      (department&#95;code) REFERENCES</code> <code>departments(department&#95;code)</code>
+<code>);</code>
+<code></code>
+<code>CREATE TABLE finished&#95;courses (</code>
+<code>  ssn           CHAR(11),</code>
+<code>  course&#95;code   CHAR(6),</code>
+<code>  grade         INTEGER NOT NULL CHECK (grade >= 3 AND grade</code> &lt;= 5),
+<code>  PRIMARY KEY   (ssn, course&#95;code),</code>
+<code>  FOREIGN KEY   (ssn) REFERENCES students(ssn),</code>
+<code>  FOREIGN KEY   (course&#95;code) REFERENCES</code> <code>courses(course&#95;code)</code>
+<code>);</code>
+</pre>
+</p>
+
+<p>
+All courses offered at the "Computer Science and Engineering" program at LTH during the academic year 2013/14 are in the table <code>courses</code>.
+Also, the database has been filled with made up data.
+SQL statements like the following have been used to insert the data:
+</p>
+
+<p>
+<pre>
+<code>INTO   students(ssn, first&#95;name, last&#95;name)</code>
+<code>VALUES ('19950705-2308', 'Anna', 'Johansson'),</code>
+<code>       ('19930702-3582', 'Anna', 'Johansson'),</code>
+<code>       ('19911212-1746', 'Emma', 'Alm'),</code>
+<code>       ('19910707-3787', 'Emma', 'Nilsson'),</code>
+<code>       ...</code>
+</pre>
+</p>
+</div>
+</div>
+<div id="outline-container-assignments" class="outline-3">
+<h3 id="assignments">Assignments</h3>
+<div class="outline-text-3" id="text-assignments">
+<p>
+As said above, this lab is designed to be run as a jupyter notebook. If you haven't got jupyter running, you can run the sql-commands for the problems below interactively inside sqlite3, or as a script file with all your commands, or inside some IDE, like <a href="https://sqlitebrowser.org/">DB Browser for SQLite</a>.
+</p>
+
+<p>
+If you're running the lab as a notebook, evaluate the following cells before you begin:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%load_ext sql
+</pre>
+</div>
+
+<p>
+If we use <code>jupysql</code> (instead of <code>ipython-sql</code>) we get a default limit of 10 rows for any query &#x2013; to turn this limit off we can write:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%config SqlMagic.displaylimit = None
+</pre>
+</div>
+
+<p>
+We can now load the lab database:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%sql sqlite:///lab1.sqlite
+</pre>
+</div>
+
+<p>
+The tables <code>students</code>, <code>departments</code>, <code>courses</code> and <code>finished_courses</code> are already in your database, you can see some of their contents by running the cells below:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+SELECT  *
+FROM    students
+LIMIT   4
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+SELECT  *
+FROM    departments
+LIMIT   4
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+SELECT  *
+FROM    courses
+LIMIT   4
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+SELECT  *
+FROM    finished_courses
+LIMIT   4
+</pre>
+</div>
+
+<p>
+If you inadvertently change the contents of the tables, you can always
+recreate the them with the following command (it must be run at the
+command line):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">$ sqlite3 lab1.sqlite &lt; create-lab1-db.sql
+</pre>
+</div>
+</div>
+<div id="outline-container-orge765fef" class="outline-4">
+<h4 id="orge765fef">Warm up problems</h4>
+<div class="outline-text-4" id="text-orge765fef">
+<p>
+The problems in this section will not be reviewed during the lab session, they're just to get you up to speed.
+</p>
+</div>
+<ul class="org-ul">
+<li><a id="problem-1-practice"></a>Problem 1 (practice)<br />
+<div class="outline-text-5" id="text-problem-1-practice">
+<p>
+What are the names (first name and last name) of all the students?
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+
+<p>
+Now sort the names, first by last name and then by first name:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+
+<p>
+When you get it to work, experiment by listing only the 10 first students (alphabetically), then try to list only students 11-20, etc.:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+</div>
+</li>
+<li><a id="problem-2-practice"></a>Problem 2 (practice)<br />
+<div class="outline-text-5" id="text-problem-2-practice">
+<p>
+What are the names of the students who were born in 1985?
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+
+<p>
+Hint: the <code>substring</code> function can be useful (it also goes by the name
+<code>substr</code>).
+</p>
+</div>
+</li>
+<li><a id="problem-3-practice"></a>Problem 3 (practice)<br />
+<div class="outline-text-5" id="text-problem-3-practice">
+<p>
+The penultimate digit in the social security number is even for females, and odd for males. List the first names of all female students in our database alphabetically.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+
+<p>
+Now try to output each name only once (so, no duplicates).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+
+<p>
+Now try to output the number of distinct names in the listing of female students above, using <code>count</code>. It turns out that this is a bit tricky, we need to make sure we use the word <code>DISTINCT</code> in the right place (look carefully in the <a href="https://sqlite.org/lang_aggfunc.html">documentation</a>).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+
+
+<p>
+Write a query to show the number of female students, and the number of male students. We want to get the following output:
+</p>
+
+<p>
+<center>
+<div>
+<table rules="all">
+<TR>
+  <TH>gender</TH>
+  <TH>count()</TH>
+</TR>
+<TR>
+  <TD>female</TD>
+  <TD>25</TD>
+</TR>
+  <TR><TD>male</TD>
+  <TD>47</TD>
+</TR>
+</table>
+</div>
+</center>
+</p>
+
+<p>
+To do this, we can use the <code>CASE</code> - <code>WHEN</code> construct (see lecture 1) &#x2013; in this case we want to create the two categories <code>'female'</code> and <code>'male'</code>, and then find a way to count the number of rows in each category.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+</div>
+</li>
+<li><a id="problem-4-practice"></a>Problem 4 (practice)<br />
+<div class="outline-text-5" id="text-problem-4-practice">
+<p>
+In the next few queries, we'll look at the results of the student with the social security number <code>19910101-1234</code> &#x2013; to make things <i>a lot</i> easier, start by creating a <code>VIEW</code> with all his results.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+DROP VIEW IF EXISTS ...;
+CREATE VIEW ... AS
+</pre>
+</div>
+
+<p>
+Make sure the view contains all data pertinent to the student in question (it will make the following queries very simple).
+</p>
+
+<p>
+Which courses (course codes only) have been taken by the student?
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+
+<p>
+What are the names of these courses, and how many credits do they give?
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+
+<p>
+How many credits has the student taken?
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+
+<p>
+What is the student's grade average? It turns out that there are actually (at least) two different averages at play here:
+</p>
+
+<ul class="org-ul">
+<li>the unweighted average, i.e., just the average of all the students
+grades (no matter how many credits each course gives), and</li>
+
+<li>the <a href="https://en.wikipedia.org/wiki/Weighted_arithmetic_mean">weighted average</a>, where we use the credits for a course as a weight.</li>
+</ul>
+
+<p>
+First the unweighted average:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+
+<p>
+And then the weighted average (feel free to ask me about this during QA
+sessions, if you get stuck):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+
+<p>
+Hint: If you've created a proper view above, we'll get a 'table' with
+one row for each course the student has finished, and each row will
+contain information about grades and credits for the finished course.
+If we use arithmetic operations in a select statement, and then use an
+aggregate function around that operation, we'll apply the aggregate
+function to each value the operation returns (so, e.g., a <code>sum</code> over a
+product will be a scalar product).
+</p>
+
+<p>
+Now drop the view:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org2aff597" class="outline-4">
+<h4 id="org2aff597">Review problems</h4>
+<div class="outline-text-4" id="text-org2aff597">
+</div>
+<ul class="org-ul">
+<li><a id="problem-5-review"></a>Problem 5 - REVIEW<br />
+<div class="outline-text-5" id="text-problem-5-review">
+<p>
+List the students in birthday order (not by age, just the birthday &#x2013; the birthday is a part of the social security number).
+</p>
+
+<p>
+The output should begin with:
+</p>
+
+<p>
+<center>
+<div>
+<table rules="all">
+<TR>
+  <TH>ssn</TH>
+  <TH>first_name</TH>
+  <TH>last_name</TH>
+</TR>
+<TR>
+  <TD>19910101-1234</TD>
+  <TD>Peter</TD>
+  <TD>Solberg</TD>
+</TR>
+<TR>
+  <TD>19890103-1256</TD>
+  <TD>Johan</TD>
+  <TD>Brattberg</TD>
+</TR>
+<TR>
+  <TD>19950125-1153</TD>
+  <TD>Magnus</TD>
+  <TD>Hultgren</TD>
+</TR>
+<TR>
+  <TD>19900129-3374</TD>
+  <TD>Henrik</TD>
+  <TD>Gustavsson</TD>
+</TR>
+<TR>
+  <TD>19860206-1065</TD>
+  <TD>Eva</TD>
+  <TD>Hjort</TD>
+</TR>
+</table>
+</div>
+</center>
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+
+<p>
+Then list the 6 most common birthdays in the database.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+</div>
+</li>
+<li><a id="problem-6-review"></a>Problem 6 &#x2013; REVIEW<br />
+<div class="outline-text-5" id="text-problem-6-review">
+<p>
+How many courses are there for each level (<code>G1</code>, <code>G2</code>, and <code>A</code>)?
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+
+<p>
+For each level, how many courses give more than 7.5 HP &#x2013; list only
+those categories with more than 5 such courses?
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+</div>
+</li>
+<li><a id="problem-7-review"></a>Problem 7 - REVIEW<br />
+<div class="outline-text-5" id="text-problem-7-review">
+<p>
+For the five departments which offer the most total credits (for its
+courses in this database) &#x2013; output the name of the department, and the
+total number of offered credits:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+</div>
+</li>
+<li><a id="problem-8-review"></a>Problem 8 - REVIEW<br />
+<div class="outline-text-5" id="text-problem-8-review">
+<p>
+Which students (<code>ssn</code> and full name) have taken 0 credits? This problem
+can be solved in several ways, first do it with an outer join:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+
+<p>
+Now do the same thing using a subquery:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+</div>
+</li>
+<li><a id="problem-9-review"></a>Problem 9 - REVIEW<br />
+<div class="outline-text-5" id="text-problem-9-review">
+<p>
+List the names and average grades of the 10 students with the highest
+grade average? You can use the unweighted average.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+</div>
+</li>
+<li><a id="problem-10-review"></a>Problem 10 - REVIEW<br />
+<div class="outline-text-5" id="text-problem-10-review">
+<p>
+List the social security number and total number of credits for all
+students &#x2013; order by total credits, descending. Students with no credits
+should be included in the listing, with 0 credits (not <code>NULL</code>).
+</p>
+
+<p>
+Use an outer <code>JOIN</code> to solve the problem &#x2013; you might want to use the
+function <code>coalesce(v1, v2, ...)</code>; it returns the first value which is
+not <code>NULL</code>, so <code>coalesce(avg(grade), 0)</code> would give 0 if the were no
+grades (i.e., if <code>grade</code> were <code>NULL</code>), you can also try the <code>ifnull</code>
+function.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+</div>
+</li>
+<li><a id="problem-11-review"></a>Problem 11 - REVIEW<br />
+<div class="outline-text-5" id="text-problem-11-review">
+<p>
+Do all students have unique names (first name <i>and</i> last name)? If not,
+show the full name and social security number for all students who have
+a namesake.
+</p>
+
+<p>
+As usual there are several ways of solving this, solve it using a
+<code>WITH</code>-statement where you create a 'table' with all duplicate names,
+and then:
+</p>
+
+<p>
+Use a <code>JOIN</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+
+<p>
+Use a subquery:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ipython">%%sql
+</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
