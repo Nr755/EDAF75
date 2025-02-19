@@ -34,12 +34,12 @@ CREATE TABLE theaters(
 );
 
 CREATE TABLE performances(
-    id              TEXT DEFAULT (lower(hex(randomblob(16)))),
+    performanceId   TEXT DEFAULT (lower(hex(randomblob(16)))),
     start_time      TIME NOT NULL,
     theater         TEXT NOT NULL,
     date            DATE NOT NULL,
     imdb_key        TEXT NOT NULL,
-    PRIMARY KEY     (id)
+    PRIMARY KEY     (performanceId)
     FOREIGN KEY     (theater) REFERENCES theaters(name)
     FOREIGN KEY     (imdb_key) REFERENCES movies(imdb_key)
 );
@@ -47,10 +47,10 @@ CREATE TABLE performances(
 CREATE TABLE tickets(
     id              TEXT DEFAULT (lower(hex(randomblob(16)))),
     username        TEXT NOT NULL,
-    date_and_time   TEXT NOT NULL,
-    PRIMARY KEY     (id)
-    FOREIGN KEY     (username) REFERENCES customers(username)
-    FOREIGN KEY     (date_and_time) REFERENCES screening(id)
+    performanceId   TEXT NOT NULL,
+    PRIMARY KEY     (id),
+    FOREIGN KEY     (username) REFERENCES customers(username),
+    FOREIGN KEY     (performanceId) REFERENCES performances(performanceId)
 );
 
 -- We insert stuff into the tables

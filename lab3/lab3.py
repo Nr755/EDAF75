@@ -69,24 +69,38 @@ def post_movie():
 def post_performance():
     performance = request.json
     c = db.cursor()
+
+    c.execute(
+        """
+        SELECT performanceId FROM performances
+        WHERE imdb_key = ? AND theater = ? AND date = ? AND start_time = ?
+        """,
+        [performance['imdbKey'], performance['theater'], performance['date'], performance['time']]
+    )
+    existing_performance = c.fetchone()
+
+    if existing_performance:
+        response.status = 200
+        return f"/performances/{existing_performance[0]}"
+
     try:
         c.execute(
             """
-            INSERT
-            INTO        performances(imdb_key, theater, date, start_time)
-            VALUES      (?, ?, ?, ?)
-            RETURNING   id
+            INSERT INTO performances(performanceId, imdb_key, theater, date, start_time)
+            VALUES (lower(hex(randomblob(16))), ?, ?, ?, ?)
+            RETURNING performanceId
             """,
             [performance['imdbKey'], performance['theater'], performance['date'], performance['time']]
         )
+        performanceId = c.fetchone()[0]
+        db.commit()
+        response.status = 201
+        return f"/performances/{performanceId}"
+
     except sqlite3.IntegrityError:
         response.status = 400
         return "No such movie or theater"
-    else:
-        id = c.fetchone()[0]
-        db.commit()
-        response.status = 201
-        return f"/performances/{id}"
+
 
 @get('/movies')
 def get_movies():
@@ -105,7 +119,7 @@ def get_movies():
     ]
 
     response.content_type = "application/json"
-    return json.dumps({"data": movies_list})
+    return json.dumps({"data": movies_list}, indent = 4)
 
 @get('/movies/<imdb_key>')
 def get_movies(imdb_key):
@@ -129,12 +143,53 @@ def get_movies(imdb_key):
         return {"data": []}
 
     response.content_type = "application/json"
-    return json.dumps({"data": movie})
-
+    return json.dumps({"data": movie}, indent = 4)
 
 @get('/performances')
 def get_performances():
-    return "Not implemented"
+    c = db.cursor()
+    c.execute(
+            """
+            SELECT 
+                p.performanceId,
+                p.date,
+                p.start_time AS startTime,
+                m.title,
+                m.year,
+                p.theater,
+                t.capacity - COALESCE(s.sold_tickets, 0) AS remainingSeats
+            FROM performances p
+            JOIN movies m ON p.imdb_key = m.imdb_key
+            JOIN theaters t ON p.theater = t.name
+            LEFT JOIN (
+                SELECT performanceId, COUNT(*) AS sold_tickets
+                FROM tickets
+                GROUP BY performanceId
+            ) s ON p.performanceId = s.performanceId
+            """
+        )
+
+    fetched_data = c.fetchall()
+
+    if not fetched_data:
+        response.status = 200
+        return json.dumps({"data": []}, indent=4)
+
+    performances = [
+        {
+            "performanceId": performanceId,
+            "date": date,
+            "startTime": start_time,
+            "title": title,
+            "year": year,
+            "theater": theater,
+            "remainingSeats": remaining_seats
+        }
+        for performanceId, date, start_time, title, year, theater, remaining_seats in fetched_data
+    ]
+
+    response.content_type = "application/json"
+    return json.dumps({"data": performances}, indent=4)
 
 @post('/tickets')
 def post_tickets():
