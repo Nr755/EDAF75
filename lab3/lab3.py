@@ -2,6 +2,7 @@ import sqlite3
 import hashlib
 import os
 from bottle import response, get, post, run, request
+import json
 
 db = sqlite3.connect("/Users/mikolajsinicka/Desktop/EDAF75/lab3/movies.sqlite")
 db.execute("PRAGMA foreign_keys = ON")
@@ -89,11 +90,47 @@ def post_performance():
 
 @get('/movies')
 def get_movies():
-    return "Not implemented"
+    c = db.cursor()
+    c.execute(
+        """
+        SELECT  imdb_key, title, year
+        FROM    movies
+        """
+    )
+    movies = c.fetchall()
+
+    movies_list = [
+        {"imdbKey": imdb_key, "title": title, "year": year}
+        for (imdb_key, title, year) in movies
+    ]
+
+    response.content_type = "application/json"
+    return json.dumps({"data": movies_list})
 
 @get('/movies/<imdb_key>')
 def get_movies(imdb_key):
-    return "Not implemented"
+    c = db.cursor()
+    c.execute(
+        """
+        SELECT imdb_key, title, year
+        FROM movies
+        WHERE imdb_key = ?
+        """,
+        [imdb_key]
+    )
+    
+    movie = [
+        {"imdbKey": imdb_key, "title": movie_name, "year": production_year}
+        for imdb_key, movie_name, production_year in c
+    ]
+    
+    if not movie:
+        response.status = 404
+        return {"data": []}
+
+    response.content_type = "application/json"
+    return json.dumps({"data": movie})
+
 
 @get('/performances')
 def get_performances():
