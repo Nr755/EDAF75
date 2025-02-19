@@ -101,7 +101,6 @@ def post_performance():
         response.status = 400
         return "No such movie or theater"
 
-
 @get('/movies')
 def get_movies():
     c = db.cursor()
@@ -149,54 +148,127 @@ def get_movies(imdb_key):
 def get_performances():
     c = db.cursor()
     c.execute(
-            """
-            SELECT 
-                p.performanceId,
-                p.date,
-                p.start_time AS startTime,
-                m.title,
-                m.year,
-                p.theater,
-                t.capacity - COALESCE(s.sold_tickets, 0) AS remainingSeats
-            FROM performances p
-            JOIN movies m ON p.imdb_key = m.imdb_key
-            JOIN theaters t ON p.theater = t.name
-            LEFT JOIN (
-                SELECT performanceId, COUNT(*) AS sold_tickets
-                FROM tickets
-                GROUP BY performanceId
-            ) s ON p.performanceId = s.performanceId
-            """
-        )
-
-    fetched_data = c.fetchall()
-
-    if not fetched_data:
-        response.status = 200
-        return json.dumps({"data": []}, indent=4)
-
-    performances = [
+        """
+        SELECT p.performanceId, p.imdb_key, p.theater, p.date, p.start_time, t.capacity - COALESCE(s.sold_tickets, 0) AS remaining_seats
+        FROM performances p
+        JOIN theaters t ON p.theater = t.name
+        LEFT JOIN (
+            SELECT performanceId, COUNT(*) AS sold_tickets
+            FROM tickets
+            GROUP BY performanceId
+        ) s ON p.performanceId = s.performanceId
+        """
+    )
+    
+    performances = c.fetchall()
+    performances_list = [
         {
-            "performanceId": performanceId,
+            "performanceId": p_id,
+            "imdbKey": imdb_key,
+            "theater": theater,
             "date": date,
             "startTime": start_time,
-            "title": title,
-            "year": year,
-            "theater": theater,
             "remainingSeats": remaining_seats
         }
-        for performanceId, date, start_time, title, year, theater, remaining_seats in fetched_data
+        for p_id, imdb_key, theater, date, start_time, remaining_seats in performances
     ]
 
     response.content_type = "application/json"
-    return json.dumps({"data": performances}, indent=4)
+    return json.dumps({"data": performances_list}, indent=4)
 
 @post('/tickets')
-def post_tickets():
-    return "Not implemented"
+def post_ticket():
+    ticket_request = request.json
+    username = ticket_request.get("username")
+    password = ticket_request.get("pwd")
+    performance_id = ticket_request.get("performanceId")
+
+    c = db.cursor()
+    c.execute(
+        """
+        SELECT username FROM customers
+        WHERE username = ? AND password = ?
+        """,
+        (username, hashlib.sha256(password.encode('utf-8')).hexdigest())
+    )
+    existing_user = c.fetchone()
+
+    if not existing_user:
+        response.status = 401
+        return "Wrong user credentials"
+    
+    c.execute(
+        """
+        SELECT (t.capacity - COALESCE(s.sold_tickets, 0)) AS remaining_seats
+        FROM performances p
+        JOIN theaters t ON p.theater = t.name
+        LEFT JOIN (
+            SELECT performanceId, COUNT(*) AS sold_tickets
+            FROM tickets
+            GROUP BY performanceId
+        ) s ON p.performanceId = s.performanceId
+        WHERE p.performanceId = ?
+        """,
+        (performance_id,)
+    )
+
+    seat_check = c.fetchone()
+    if not seat_check:
+        response.status = 400
+        return "Performance does not exist"
+    remaining_seats = seat_check[0]
+
+    if remaining_seats <= 0:
+        response.status = 400
+        return "No tickets left"
+
+    try:
+        c.execute(
+            """
+            INSERT INTO tickets(id, username, performanceId, date_and_time)
+            VALUES (lower(hex(randomblob(16))), ?, ?, CURRENT_TIMESTAMP)
+            RETURNING id
+            """,
+            (username, performance_id)
+        )
+
+        new_ticket = c.fetchone()
+        if new_ticket:
+            db.commit()
+            response.status = 201
+            return f"/tickets/{new_ticket[0]}"
+
+    except sqlite3.Error as e:
+        response.status = 400
+        return "Error"
 
 @get('/users/<username>/tickets')
 def get_tickets(username):
-    return "Not implemented"
+    c = db.cursor()
+    c.execute(
+        """
+        SELECT p.imdb_key, p.theater, p.date, p.start_time, COUNT(*) as nbrOfTickets
+        FROM tickets t
+        JOIN performances p ON t.performanceId = p.performanceId
+        WHERE t.username = ?
+        GROUP BY p.imdb_key, p.theater, p.date, p.start_time
+        """,
+        (username,)
+    )
+
+    tickets = c.fetchall()
+    tickets_list = [
+        {
+            "imdbKey": imdb_key,
+            "theater": theater,
+            "date": date,
+            "startTime": start_time,
+            "nbrOfTickets": nbr_of_tickets
+        }
+        for imdb_key, theater, date, start_time, nbr_of_tickets in tickets
+    ]
+
+    response.content_type = "application/json"
+    return json.dumps({"data": tickets_list}, indent=4)
 
 run(host = 'localhost', port = PORT)

@@ -48,6 +48,7 @@ CREATE TABLE tickets(
     id              TEXT DEFAULT (lower(hex(randomblob(16)))),
     username        TEXT NOT NULL,
     performanceId   TEXT NOT NULL,
+    date_and_time   TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY     (id),
     FOREIGN KEY     (username) REFERENCES customers(username),
     FOREIGN KEY     (performanceId) REFERENCES performances(performanceId)
